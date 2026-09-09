@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.set_page_config(page_title="متجر أمنية المنظم للأقسام", page_icon="🛍️", layout="centered")
+st.set_page_config(page_title="Omnia Store", page_icon="🛍️", layout="centered")
 
 def get_products(category):
     # 1. قسم العناية الشخصية والجمال (67 منتج)
