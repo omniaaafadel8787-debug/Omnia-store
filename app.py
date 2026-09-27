@@ -185,9 +185,20 @@ if query:
         | view["category"].str.contains(q, case=False, regex=False)
     ]
 
-st.caption(f"{len(view)} منتج")
+PER_PAGE = 40
+total = len(view)
+pages = max(1, (total + PER_PAGE - 1) // PER_PAGE)
+if pages > 1:
+    p1, p2 = st.columns([1, 3])
+    with p1:
+        page = st.number_input("الصفحة", min_value=1, max_value=pages, value=1, step=1)
+    with p2:
+        st.caption(f"{total} منتج · صفحة {page} من {pages}")
+else:
+    page = 1
+    st.caption(f"{total} منتج")
 
-rows = view.to_dict("records")
+rows = view.iloc[(page - 1) * PER_PAGE: page * PER_PAGE].to_dict("records")
 for start in range(0, len(rows), COLUMNS_PER_ROW):
     cols = st.columns(COLUMNS_PER_ROW)
     for col, row in zip(cols, rows[start:start + COLUMNS_PER_ROW]):
