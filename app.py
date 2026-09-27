@@ -13,8 +13,8 @@ SHEET_URL = "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/export?form
 SHEET_TABS = [("0", "amazon"), ("1225262452", "noon")]
 PLACEHOLDER_IMG = (
     "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'>"
-    "<rect width='400' height='400' fill='%23FFF1E5'/>"
-    "<circle cx='200' cy='200' r='70' fill='%23F07A1A'/>"
+    "<rect width='400' height='400' fill='%23FFF5EC'/>"
+    "<circle cx='200' cy='200' r='70' fill='%23EE8433'/>"
     "<text x='200' y='222' font-family='Georgia,serif' font-size='60' fill='%23FFFFFF' "
     "text-anchor='middle'>OA</text></svg>"
 )
@@ -22,9 +22,9 @@ COLUMNS_PER_ROW = 4
 PER_PAGE = 40
 
 # ألوان التصميم (برتقالي وأبيض ولمسة أسود)
-ORANGE = "#F07A1A"
-ORANGE_DARK = "#D9640A"
-ORANGE_SOFT = "#FFF1E5"
+ORANGE = "#EE8433"
+ORANGE_DARK = "#D46F22"
+ORANGE_SOFT = "#FFF5EC"
 INK = "#1A1A1A"
 MUTED = "#6B6B6B"
 BG = "#FFFFFF"
@@ -51,6 +51,7 @@ T = {
         "footer": f"{STORE_NAME_EN} مشارك في برامج التسويق بالعمولة. بعض الروابط في الموقع روابط عمولة، "
                   "ولما تشتري من خلالها بناخد نسبة صغيرة من المتجر، من غير أي زيادة في السعر عليكي.",
         "love": "بحب ❤",
+        "sec_amazon": "منتجات أمازون", "sec_noon": "منتجات نون", "sec_other": "منتجات أخرى",
     },
     "en": {
         "tagline": "Products picked with love from Amazon & Noon",
@@ -68,6 +69,7 @@ T = {
         "footer": f"{STORE_NAME_EN} participates in affiliate programs. Some links on this site are affiliate links: "
                   "when you buy through them we earn a small commission, at no extra cost to you.",
         "love": "with love ❤",
+        "sec_amazon": "Amazon products", "sec_noon": "Noon products", "sec_other": "Other products",
     },
     "it": {
         "tagline": "Prodotti scelti con amore da Amazon e Noon",
@@ -85,6 +87,7 @@ T = {
         "footer": f"{STORE_NAME_EN} partecipa a programmi di affiliazione. Alcuni link del sito sono link di affiliazione: "
                   "se acquisti tramite essi riceviamo una piccola commissione, senza costi aggiuntivi per te.",
         "love": "con amore ❤",
+        "sec_amazon": "Prodotti Amazon", "sec_noon": "Prodotti Noon", "sec_other": "Altri prodotti",
     },
 }
 
@@ -166,15 +169,17 @@ html, body, [class*="css"], .stApp {{ direction: {DIR}; }}
 .block-container {{ padding-top: 1.2rem; max-width: 1320px; }}
 .om-top {{ display:flex; align-items:center; justify-content:space-between; gap:16px;
   background:#fff; border:1px solid {LINE}; border-radius:22px; padding:14px 22px; margin-bottom:18px;
-  box-shadow:0 2px 10px rgba(240,122,26,.08); }}
+  box-shadow:0 2px 10px rgba(238,132,51,.08); }}
 .om-logo {{ display:flex; align-items:center; gap:10px; direction:ltr; }}
-.om-bag {{ display:block; filter: drop-shadow(0 3px 5px rgba(240,122,26,.30)); }}
-.om-name {{ display:flex; flex-direction:column; line-height:1.05; }}
+.om-bag {{ display:block; filter: drop-shadow(0 3px 5px rgba(238,132,51,.30)); }}
+.om-name {{ position:relative; display:flex; flex-direction:column; line-height:1.05; padding:0 6px; }}
+.om-name b, .om-name small {{ position:relative; z-index:1; }}
+.om-mom {{ position:absolute; z-index:0; left:50%; top:50%; transform:translate(-50%,-50%); width:60px; height:60px; opacity:.13; pointer-events:none; }}
 .om-name b {{ font-family:Marcellus,serif !important; font-weight:400; font-size:28px; color:{INK}; }}
 .om-name small {{ font-family:Jost,sans-serif !important; font-weight:500; font-size:10px; letter-spacing:.4em; color:{ORANGE}; }}
 .om-top .om-ar {{ color:{MUTED}; font-size:14px; }}
 .om-hero {{ position:relative; overflow:hidden; border-radius:28px; color:#fff; padding:40px 44px; margin-bottom:22px;
-  background: linear-gradient(135deg, #FF9A3C 0%, {ORANGE} 55%, #E86A0E 100%);
+  background: linear-gradient(135deg, #F7B06E 0%, #F29A50 45%, {ORANGE} 100%);
   display:grid; grid-template-columns: minmax(0,1fr) minmax(0,1.2fr); gap:24px; align-items:center; }}
 .om-hero .ring {{ position:absolute; inset-inline-end:-80px; top:-80px; width:260px; height:260px; border-radius:50%;
   border:40px solid rgba(255,255,255,.16); }}
@@ -201,10 +206,12 @@ html, body, [class*="css"], .stApp {{ direction: {DIR}; }}
 @keyframes omUp {{ from {{ transform: translateY(0); }} to {{ transform: translateY(-50%); }} }}
 @keyframes omDown {{ from {{ transform: translateY(-50%); }} to {{ transform: translateY(0); }} }}
 @media (prefers-reduced-motion: reduce) {{ .om-track {{ animation: none; }} }}
+.om-sec {{ display:table; margin:6px 0 14px; padding:6px 16px; border-radius:999px; font-weight:700; font-size:15px;
+  background:{ORANGE_SOFT}; color:{ORANGE_DARK}; border:1px solid #F6D2B4; }}
 .om-h2 {{ font-family:Cairo,sans-serif !important; font-weight:700; font-size:26px; color:{INK}; margin:6px 0 2px; }}
 .card {{ background:#fff; border:1px solid {LINE}; border-radius:22px; padding:14px; display:flex; flex-direction:column; gap:8px;
   margin-bottom:20px; transition:transform .15s, box-shadow .15s; }}
-.card:hover {{ transform:translateY(-3px); box-shadow:0 10px 24px rgba(240,122,26,.16); }}
+.card:hover {{ transform:translateY(-3px); box-shadow:0 10px 24px rgba(238,132,51,.16); }}
 .card .ph {{ position:relative; border-radius:16px; background:#fff; border:1px solid #F3F3F3; overflow:hidden; }}
 .card .ph img {{ width:100%; aspect-ratio:1/1; object-fit:contain; display:block; }}
 .card .badge {{ position:absolute; top:10px; inset-inline-end:10px; font-size:12px; font-weight:700; padding:3px 10px;
@@ -343,11 +350,23 @@ def card_html(row):
 
 
 # ---------------- الصفحة ----------------
+# ظل بسيط لأم شايلة طفلها ورا الاسم (من غير ملامح)
+MOM_SVG = (
+    '<svg class="om-mom" viewBox="28 0 64 64" aria-hidden="true">'
+    '<g fill="#1A1A1A">'
+    '<circle cx="62" cy="10" r="7.5"/>'
+    '<circle cx="68" cy="6" r="3.6"/>'
+    '<path d="M55 20c-6 4-9 16-11 44h38c-1-20-5-36-12-43-4-3-10-4-15-1z"/>'
+    '<circle cx="47" cy="29" r="5.6"/>'
+    '<ellipse cx="56" cy="38" rx="12" ry="6.2" transform="rotate(-18 56 38)"/>'
+    '</g></svg>'
+)
+
 # لوجو: شنطة تسوق برتقالي وجواها قلب (تسوق باهتمام أم)
 LOGO_SVG = (
     '<svg class="om-bag" width="44" height="50" viewBox="0 0 92 104" aria-hidden="true">'
     '<path d="M30 32V24a16 16 0 0 1 32 0v8" stroke="#1A1A1A" stroke-width="7" stroke-linecap="round" fill="none"/>'
-    '<rect x="8" y="30" width="76" height="68" rx="18" fill="#F07A1A"/>'
+    '<rect x="8" y="30" width="76" height="68" rx="18" fill="#EE8433"/>'
     '<path d="M46 84c-10-7-17-12.5-17-20.5a9 9 0 0 1 17-4.2 9 9 0 0 1 17 4.2c0 8-7 13.5-17 20.5z" fill="#FFFFFF"/>'
     '<circle cx="31" cy="44" r="3.2" fill="#1A1A1A"/><circle cx="61" cy="44" r="3.2" fill="#1A1A1A"/>'
     "</svg>"
@@ -356,7 +375,7 @@ LOGO_SVG = (
 st.markdown(
     '<div class="om-top">'
     f'<div class="om-logo">{LOGO_SVG}'
-    '<span class="om-name"><b>OmAmin</b><small>STORE</small></span></div>'
+    f'<span class="om-name">{MOM_SVG}<b>OmAmin</b><small>STORE</small></span></div>'
     f'<span class="om-ar">{STORE_NAME_AR} · {TX["tagline"]}</span>'
     "</div>",
     unsafe_allow_html=True,
@@ -455,7 +474,13 @@ if query:
     ]
 
 total = len(view)
-pages = max(1, (total + PER_PAGE - 1) // PER_PAGE)
+# كل صفحة فيها منتجات متجر واحد بس: صفحات أمازون الأول وبعدها صفحات نون (من غير خلط)
+chunks = []
+for store_key in ("amazon", "noon", "other"):
+    part = view[view["_store"] == store_key]
+    for i in range(0, len(part), PER_PAGE):
+        chunks.append((store_key, part.iloc[i:i + PER_PAGE]))
+pages = max(1, len(chunks))
 st.session_state.page = min(max(1, st.session_state.page), pages)
 
 
@@ -496,7 +521,10 @@ pager("pg_top")
 if total == 0:
     st.info(TX["none"])
 
-rows = view.iloc[(page - 1) * PER_PAGE: page * PER_PAGE].to_dict("records")
+page_store, page_rows = chunks[page - 1] if chunks else ("", view.iloc[0:0])
+if page_store and selected_store == "all":
+    st.markdown(f'<div class="om-sec">{TX["sec_" + page_store]}</div>', unsafe_allow_html=True)
+rows = page_rows.to_dict("records")
 for start in range(0, len(rows), COLUMNS_PER_ROW):
     cols = st.columns(COLUMNS_PER_ROW)
     for col, row in zip(cols, rows[start:start + COLUMNS_PER_ROW]):
