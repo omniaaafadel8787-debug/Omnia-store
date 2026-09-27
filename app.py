@@ -13,23 +13,23 @@ SHEET_URL = "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/export?form
 SHEET_TABS = [("0", "amazon"), ("1225262452", "noon")]
 PLACEHOLDER_IMG = (
     "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'>"
-    "<rect width='400' height='400' fill='%23F3EAF3'/>"
-    "<circle cx='200' cy='200' r='70' fill='%234A2A55'/>"
-    "<text x='200' y='222' font-family='Georgia,serif' font-size='60' fill='%23E9C9A8' "
+    "<rect width='400' height='400' fill='%23FFF1E5'/>"
+    "<circle cx='200' cy='200' r='70' fill='%23161616'/>"
+    "<text x='200' y='222' font-family='Georgia,serif' font-size='60' fill='%23FFB26B' "
     "text-anchor='middle'>OA</text></svg>"
 )
 COLUMNS_PER_ROW = 4
 PER_PAGE = 40
 
-# ألوان التصميم (بنفسجي برقوقي وذهبي وردي)
-PLUM = "#4A2A55"
-PLUM_MID = "#6E4478"
-PLUM_DARK = "#3A2143"
-GOLD = "#B8875C"
-GOLD_LIGHT = "#E9C9A8"
-INK = "#2A2230"
-MUTED = "#71667A"
-BG = "#F5F1F3"
+# ألوان التصميم (برتقالي وأبيض وأسود)
+PLUM = "#161616"
+PLUM_MID = "#F07A1A"
+PLUM_DARK = "#111111"
+GOLD = "#F07A1A"
+GOLD_LIGHT = "#FFB26B"
+INK = "#1A1A1A"
+MUTED = "#6B6B6B"
+BG = "#FAFAFA"
 
 st.set_page_config(page_title=STORE_NAME_EN, page_icon="🛍️", layout="wide")
 
@@ -43,7 +43,7 @@ html, body, [class*="css"], .stApp {{ direction: rtl; }}
 #MainMenu, footer, [data-testid="stHeader"] {{ visibility: hidden; }}
 .block-container {{ padding-top: 1.2rem; max-width: 1320px; }}
 .om-top {{ display:flex; align-items:center; justify-content:space-between; gap:16px;
-  background:#fff; border:1px solid #E6DDE4; border-radius:22px; padding:14px 22px; margin-bottom:18px; }}
+  background:#fff; border:1px solid #EBEBEB; border-radius:22px; padding:14px 22px; margin-bottom:18px; }}
 .om-logo {{ display:flex; align-items:center; gap:10px; direction:ltr; }}
 .om-stamp {{ width:46px; height:46px; border-radius:50%; background:{PLUM}; display:flex; align-items:center;
   justify-content:center; font-family:Marcellus,serif !important; font-size:19px; color:{GOLD_LIGHT};
@@ -52,24 +52,24 @@ html, body, [class*="css"], .stApp {{ direction: rtl; }}
 .om-name b {{ font-family:Marcellus,serif !important; font-weight:400; font-size:28px; color:{PLUM}; }}
 .om-name small {{ font-family:Jost,sans-serif !important; font-weight:500; font-size:10px; letter-spacing:.4em; color:{GOLD}; }}
 .om-top .om-ar {{ color:{MUTED}; font-size:14px; }}
-.om-hero {{ position:relative; overflow:hidden; border-radius:28px; background:{PLUM}; color:#FBF6F9;
+.om-hero {{ position:relative; overflow:hidden; border-radius:28px; background:{PLUM}; color:#FFFFFF;
   padding:44px 48px; margin-bottom:22px; }}
 .om-hero .ring {{ position:absolute; left:-80px; top:-80px; width:260px; height:260px; border-radius:50%;
-  border:40px solid {PLUM_MID}; }}
+  border:40px solid rgba(240,122,26,.28); }}
 .om-hero .dot {{ position:absolute; left:120px; bottom:-50px; width:110px; height:110px; border-radius:50%; background:{GOLD}; }}
 .om-hero .kicker {{ position:relative; font-size:14px; font-weight:600; color:{GOLD_LIGHT}; }}
 .om-hero h1 {{ position:relative; margin:8px 0 10px; font-family:Cairo,sans-serif !important; font-weight:800;
-  font-size:44px; line-height:1.3; color:#FBF6F9; padding:0; }}
-.om-hero p {{ position:relative; margin:0; font-size:17px; line-height:1.8; color:#E4D2DF; max-width:520px; }}
+  font-size:44px; line-height:1.3; color:#FFFFFF; padding:0; }}
+.om-hero p {{ position:relative; margin:0; font-size:17px; line-height:1.8; color:#D6D6D6; max-width:520px; }}
 .om-stats {{ position:relative; display:flex; gap:12px; margin-top:22px; flex-wrap:wrap; }}
-.om-stats span {{ background:rgba(255,255,255,.1); border:1px solid rgba(233,201,168,.35); color:#FBF6F9;
+.om-stats span {{ background:rgba(255,255,255,.1); border:1px solid rgba(255,178,107,.45); color:#FFFFFF;
   border-radius:14px; padding:8px 16px; font-size:14px; }}
 .om-stats span b {{ font-family:Cairo,sans-serif !important; color:{GOLD_LIGHT}; font-size:18px; margin-left:4px; }}
 .om-h2 {{ font-family:Cairo,sans-serif !important; font-weight:700; font-size:26px; color:{INK}; margin:6px 0 2px; }}
 .card {{ background:#fff; border-radius:22px; padding:14px; display:flex; flex-direction:column; gap:8px;
-  margin-bottom:20px; box-shadow:0 1px 0 #E6DDE4; transition:transform .15s, box-shadow .15s; }}
-.card:hover {{ transform:translateY(-3px); box-shadow:0 10px 24px rgba(74,42,85,.10); }}
-.card .ph {{ position:relative; border-radius:16px; background:#fff; border:1px solid #F0E8EE; overflow:hidden; }}
+  margin-bottom:20px; box-shadow:0 1px 0 #EBEBEB; transition:transform .15s, box-shadow .15s; }}
+.card:hover {{ transform:translateY(-3px); box-shadow:0 10px 24px rgba(240,122,26,.18); }}
+.card .ph {{ position:relative; border-radius:16px; background:#fff; border:1px solid #EEEEEE; overflow:hidden; }}
 .card .ph img {{ width:100%; aspect-ratio:1/1; object-fit:contain; display:block; }}
 .card .badge {{ position:absolute; top:10px; right:10px; font-size:12px; font-weight:700; padding:3px 10px;
   border-radius:999px; background:{BG}; color:{INK}; }}
@@ -78,18 +78,18 @@ html, body, [class*="css"], .stApp {{ direction: rtl; }}
   display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }}
 .card .desc {{ color:{MUTED}; font-size:13px; line-height:1.7; min-height:3.4em;
   display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }}
-.card .tag {{ align-self:flex-start; font-size:12px; color:{PLUM_MID}; background:#F3EAF3; border-radius:999px; padding:2px 10px; }}
+.card .tag {{ align-self:flex-start; font-size:12px; color:{PLUM_MID}; background:#FFF1E5; border-radius:999px; padding:2px 10px; }}
 .card a.buy {{ display:block; text-align:center; text-decoration:none; font-weight:600; font-size:14px;
   background:{PLUM_MID}; color:#fff !important; border-radius:12px; padding:11px; margin-top:4px; }}
-.card a.buy:hover {{ background:{PLUM}; }}
-.om-foot {{ margin-top:36px; background:{PLUM_DARK}; color:#E4D2DF; border-radius:24px; padding:30px 36px;
+.card a.buy:hover {{ background:#D9640A; }}
+.om-foot {{ margin-top:36px; background:{PLUM_DARK}; color:#D6D6D6; border-radius:24px; padding:30px 36px;
   display:flex; justify-content:space-between; align-items:flex-start; gap:30px; flex-wrap:wrap; }}
-.om-foot b {{ font-family:Marcellus,serif !important; font-weight:400; font-size:24px; color:#FBF6F9; }}
-.om-foot p {{ margin:8px 0 0; font-size:14px; line-height:1.8; max-width:620px; color:#E4D2DF; }}
+.om-foot b {{ font-family:Marcellus,serif !important; font-weight:400; font-size:24px; color:#FFFFFF; }}
+.om-foot p {{ margin:8px 0 0; font-size:14px; line-height:1.8; max-width:620px; color:#D6D6D6; }}
 .stTextInput input, .stNumberInput input {{ border-radius:12px !important; }}
 div[data-baseweb="select"] > div {{ border-radius:12px !important; }}
-.om-bag {{ display:block; filter: drop-shadow(0 2px 3px rgba(74,42,85,.18)); }}
-.om-hero {{ display:grid; grid-template-columns: minmax(0,1.2fr) minmax(0,1fr); gap:24px; align-items:center; }}
+.om-bag {{ display:block; filter: drop-shadow(0 2px 3px rgba(0,0,0,.18)); }}
+.om-hero {{ display:grid; grid-template-columns: minmax(0,1fr) minmax(0,1.2fr); gap:24px; align-items:center; }}
 .om-hero-text {{ position:relative; z-index:1; }}
 .om-hero-pics {{ position:relative; z-index:1; height:300px; display:grid; grid-template-columns:1fr 1fr; gap:12px;
   overflow:hidden; border-radius:20px;
@@ -106,7 +106,7 @@ div[data-baseweb="select"] > div {{ border-radius:12px !important; }}
 @media (prefers-reduced-motion: reduce) {{ .om-track {{ animation: none; }} }}
 /* أزرار المتجر وأرقام الصفحات */
 [data-testid="stButtonGroup"] button {{
-  border-radius:12px !important; border:1px solid #E6DDE4 !important; background:#fff !important; color:{INK} !important;
+  border-radius:12px !important; border:1px solid #EBEBEB !important; background:#fff !important; color:{INK} !important;
   font-weight:600 !important; min-height:42px; padding:0 18px !important; }}
 [data-testid="stButtonGroup"] button[aria-checked="true"] {{
   border-radius:12px !important; background:{PLUM_MID} !important; border-color:{PLUM_MID} !important;
@@ -223,10 +223,10 @@ def card_html(row):
 # لوجو: شنطة تسوق وجواها قلب (تسوق باهتمام أم)
 LOGO_SVG = (
     '<svg class="om-bag" width="44" height="50" viewBox="0 0 92 104" aria-hidden="true">'
-    '<path d="M30 32V24a16 16 0 0 1 32 0v8" stroke="#B8875C" stroke-width="7" stroke-linecap="round" fill="none"/>'
-    '<rect x="8" y="30" width="76" height="68" rx="18" fill="#4A2A55"/>'
-    '<path d="M46 84c-10-7-17-12.5-17-20.5a9 9 0 0 1 17-4.2 9 9 0 0 1 17 4.2c0 8-7 13.5-17 20.5z" fill="#F2A7B5"/>'
-    '<circle cx="31" cy="44" r="3.2" fill="#E9C9A8"/><circle cx="61" cy="44" r="3.2" fill="#E9C9A8"/>'
+    '<path d="M30 32V24a16 16 0 0 1 32 0v8" stroke="#F07A1A" stroke-width="7" stroke-linecap="round" fill="none"/>'
+    '<rect x="8" y="30" width="76" height="68" rx="18" fill="#161616"/>'
+    '<path d="M46 84c-10-7-17-12.5-17-20.5a9 9 0 0 1 17-4.2 9 9 0 0 1 17 4.2c0 8-7 13.5-17 20.5z" fill="#F07A1A"/>'
+    '<circle cx="31" cy="44" r="3.2" fill="#FFB26B"/><circle cx="61" cy="44" r="3.2" fill="#FFB26B"/>'
     "</svg>"
 )
 
@@ -255,7 +255,7 @@ def hero_strip(frame, n=10, seed=0):
         return ""
     pics = pics.sample(min(n, len(pics)), random_state=seed)
     imgs = "".join(
-        f'<img src="{html.escape(u, quote=True)}" alt="" loading="lazy">' for u in pics["image"]
+        f'<img src="{html.escape(u, quote=True)}" alt="">' for u in pics["image"]
     )
     # بنكرر الصور مرتين عشان الحركة تبان متصلة من غير قطع
     return f'<div class="om-strip"><div class="om-track">{imgs}{imgs}</div></div>'
@@ -268,6 +268,7 @@ strips = hero_strip(df, 10, day_seed) + hero_strip(df, 10, day_seed + 7).replace
 
 st.markdown(
     '<div class="om-hero"><div class="ring"></div><div class="dot"></div>'
+    f'<div class="om-hero-pics">{strips}</div>'
     '<div class="om-hero-text">'
     '<div class="kicker">اختيارات مجربة من أمازون ونون</div>'
     "<h1>كل اللي بيتك محتاجه،<br>متنقي بعناية</h1>"
@@ -277,7 +278,6 @@ st.markdown(
     f"<span><b>{len(categories)}</b>قسم</span>"
     "<span>أمازون ونون</span>"
     "</div></div>"
-    f'<div class="om-hero-pics">{strips}</div>'
     "</div>",
     unsafe_allow_html=True,
 )
