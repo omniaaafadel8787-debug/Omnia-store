@@ -105,13 +105,13 @@ div[data-baseweb="select"] > div {{ border-radius:12px !important; }}
 @keyframes omDown {{ from {{ transform: translateY(-50%); }} to {{ transform: translateY(0); }} }}
 @media (prefers-reduced-motion: reduce) {{ .om-track {{ animation: none; }} }}
 /* أزرار المتجر وأرقام الصفحات */
-[data-testid="stBaseButton-segmented_control"], [data-testid="stBaseButton-pills"] {{
+[data-testid="stButtonGroup"] button {{
   border-radius:12px !important; border:1px solid #E6DDE4 !important; background:#fff !important; color:{INK} !important;
   font-weight:600 !important; min-height:42px; padding:0 18px !important; }}
-[data-testid="stBaseButton-segmented_controlActive"], [data-testid="stBaseButton-pillsActive"] {{
+[data-testid="stButtonGroup"] button[aria-checked="true"] {{
   border-radius:12px !important; background:{PLUM_MID} !important; border-color:{PLUM_MID} !important;
   color:#fff !important; font-weight:700 !important; min-height:42px; padding:0 18px !important; }}
-[data-testid="stBaseButton-pills"], [data-testid="stBaseButton-pillsActive"] {{ min-width:44px; padding:0 12px !important; }}
+[data-testid="stButtonGroup"] button[data-variant="pills"] {{ min-width:44px; padding:0 12px !important; }}
 @media (max-width: 700px) {{
   .om-hero {{ padding:30px 24px; }} .om-hero h1 {{ font-size:30px; }}
   .om-top .om-ar {{ display:none; }}
