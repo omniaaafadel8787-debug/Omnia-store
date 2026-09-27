@@ -8,7 +8,9 @@ import streamlit as st
 STORE_NAME_EN = "OmAmin Store"
 STORE_NAME_AR = "أم آمن ستور"
 SHEET_ID = "1ir7FX_oIRJOx-7JPOmahyYPW7hUPbLpwAxqdRrMNbFQ"
-SHEET_URL = f"https://docs.google.com/spreadsheets/d/{SHEET_ID}/export?format=csv"
+SHEET_URL = "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/export?format=csv&gid={gid}"
+# كل تاب في الشيت: (رقم التاب gid, المتجر)
+SHEET_TABS = [("0", "amazon"), ("1225262452", "noon")]
 PLACEHOLDER_IMG = (
     "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'>"
     "<rect width='400' height='400' fill='%23F3EAF3'/>"
@@ -96,10 +98,9 @@ div[data-baseweb="select"] > div {{ border-radius:12px !important; }}
 
 
 # ---------------- تحميل البيانات ----------------
-@st.cache_data(ttl=60)
-def load_data():
+def load_tab(gid, default_store):
     try:
-        df = pd.read_csv(SHEET_URL, dtype=str).fillna("")
+        df = pd.read_csv(SHEET_URL.format(gid=gid), dtype=str).fillna("")
     except Exception:
         return None
     df.columns = df.columns.str.strip()
@@ -107,7 +108,7 @@ def load_data():
     lower = {c.lower(): c for c in df.columns}
 
     def col(name):
-        return df[lower[name]] if name in lower else pd.Series([""] * len(df))
+        return df[lower[name]] if name in lower else pd.Series([""] * len(df), index=df.index)
 
     out = pd.DataFrame({
         "category": col("category").str.strip(),
@@ -117,8 +118,17 @@ def load_data():
         "image": col("image").str.strip(),
         "store": col("store").str.strip(),
     })
-    out = out[out["link"] != ""]
-    return out
+    out.loc[out["store"] == "", "store"] = default_store
+    return out[out["link"] != ""]
+
+
+@st.cache_data(ttl=60)
+def load_data():
+    parts = [load_tab(gid, store) for gid, store in SHEET_TABS]
+    parts = [p for p in parts if p is not None and not p.empty]
+    if not parts:
+        return None
+    return pd.concat(parts, ignore_index=True)
 
 
 def clean(text):
