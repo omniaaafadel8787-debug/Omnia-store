@@ -29,6 +29,7 @@ INK = "#1A1A1A"
 MUTED = "#6B6B6B"
 BG = "#FFFFFF"
 LINE = "#EFE7E0"
+EDGE = "#3A3A3A"  # لون التحديد: رمادي غامق
 
 st.set_page_config(page_title=STORE_NAME_EN, page_icon="🛍️", layout="wide")
 
@@ -167,8 +168,9 @@ html, body, [class*="css"], .stApp {{ direction: {DIR}; }}
 .stApp p, .stApp label, .stApp input, .stApp span, .stApp div {{ font-family: 'IBM Plex Sans Arabic', Tahoma, sans-serif; }}
 #MainMenu, footer, [data-testid="stHeader"] {{ visibility: hidden; }}
 .block-container {{ padding-top: 1.2rem; max-width: 1320px; }}
+[data-testid="stMainBlockContainer"], .block-container {{ border:2px solid {EDGE}; border-radius:28px; margin-top:14px; margin-bottom:14px; }}
 .om-top {{ display:flex; align-items:center; justify-content:space-between; gap:16px;
-  background:#fff; border:1px solid {LINE}; border-radius:22px; padding:14px 22px; margin-bottom:18px;
+  background:#fff; border:1.5px solid {EDGE}; border-radius:22px; padding:14px 22px; margin-bottom:18px;
   box-shadow:0 2px 10px rgba(238,132,51,.08); }}
 .om-logo {{ display:flex; align-items:center; gap:10px; direction:ltr; }}
 .om-bag {{ display:block; filter: drop-shadow(0 3px 5px rgba(238,132,51,.30)); }}
@@ -178,7 +180,7 @@ html, body, [class*="css"], .stApp {{ direction: {DIR}; }}
 .om-name b {{ font-family:Marcellus,serif !important; font-weight:400; font-size:28px; color:{INK}; }}
 .om-name small {{ font-family:Jost,sans-serif !important; font-weight:500; font-size:10px; letter-spacing:.4em; color:{ORANGE}; }}
 .om-top .om-ar {{ color:{MUTED}; font-size:14px; }}
-.om-hero {{ position:relative; overflow:hidden; border-radius:28px; color:#fff; padding:40px 44px; margin-bottom:22px;
+.om-hero {{ position:relative; overflow:hidden; border-radius:28px; color:#fff; padding:40px 44px; margin-bottom:22px; border:2px solid {EDGE};
   background: linear-gradient(135deg, #F7B06E 0%, #F29A50 45%, {ORANGE} 100%);
   display:grid; grid-template-columns: minmax(0,1fr) minmax(0,1.2fr); gap:24px; align-items:center; }}
 .om-hero .ring {{ position:absolute; inset-inline-end:-80px; top:-80px; width:260px; height:260px; border-radius:50%;
@@ -201,18 +203,18 @@ html, body, [class*="css"], .stApp {{ direction: {DIR}; }}
 .om-track {{ display:flex; flex-direction:column; gap:12px; animation: omUp 38s linear infinite; }}
 .om-track.rev {{ animation-name: omDown; animation-duration: 44s; }}
 .om-hero-pics:hover .om-track {{ animation-play-state: paused; }}
-.om-track img {{ width:100%; aspect-ratio:1/1; object-fit:contain; background:#fff; border-radius:16px; padding:8px;
+.om-track img {{ width:100%; aspect-ratio:1/1; object-fit:contain; background:#fff; border-radius:16px; padding:8px; border:1.5px solid {EDGE};
   box-sizing:border-box; box-shadow:0 6px 16px rgba(0,0,0,.15); }}
 @keyframes omUp {{ from {{ transform: translateY(0); }} to {{ transform: translateY(-50%); }} }}
 @keyframes omDown {{ from {{ transform: translateY(-50%); }} to {{ transform: translateY(0); }} }}
 @media (prefers-reduced-motion: reduce) {{ .om-track {{ animation: none; }} }}
 .om-sec {{ display:table; margin:6px 0 14px; padding:6px 16px; border-radius:999px; font-weight:700; font-size:15px;
-  background:{ORANGE_SOFT}; color:{ORANGE_DARK}; border:1px solid #F6D2B4; }}
+  background:{ORANGE_SOFT}; color:{ORANGE_DARK}; border:1.5px solid {EDGE}; }}
 .om-h2 {{ font-family:Cairo,sans-serif !important; font-weight:700; font-size:26px; color:{INK}; margin:6px 0 2px; }}
-.card {{ background:#fff; border:1px solid {LINE}; border-radius:22px; padding:14px; display:flex; flex-direction:column; gap:8px;
+.card {{ background:#fff; border:1.5px solid {EDGE}; border-radius:22px; padding:14px; display:flex; flex-direction:column; gap:8px;
   margin-bottom:20px; transition:transform .15s, box-shadow .15s; }}
 .card:hover {{ transform:translateY(-3px); box-shadow:0 10px 24px rgba(238,132,51,.16); }}
-.card .ph {{ position:relative; border-radius:16px; background:#fff; border:1px solid #F3F3F3; overflow:hidden; }}
+.card .ph {{ position:relative; border-radius:16px; background:#fff; border:1px solid #C9C9C9; overflow:hidden; }}
 .card .ph img {{ width:100%; aspect-ratio:1/1; object-fit:contain; display:block; }}
 .card .badge {{ position:absolute; top:10px; inset-inline-end:10px; font-size:12px; font-weight:700; padding:3px 10px;
   border-radius:999px; background:{INK}; color:#fff; }}
@@ -226,18 +228,19 @@ html, body, [class*="css"], .stApp {{ direction: {DIR}; }}
   background:{ORANGE}; color:#fff !important; border-radius:12px; padding:11px; margin-top:4px; }}
 .card a.buy:hover {{ background:{ORANGE_DARK}; }}
 .om-foot {{ margin-top:36px; background:{ORANGE_SOFT}; color:{INK}; border-radius:24px; padding:30px 36px;
-  border-top:4px solid {ORANGE};
+  border:1.5px solid {EDGE}; border-top:4px solid {ORANGE};
   display:flex; justify-content:space-between; align-items:flex-start; gap:30px; flex-wrap:wrap; }}
 .om-foot b {{ font-family:Marcellus,serif !important; font-weight:400; font-size:24px; color:{INK}; }}
 .om-foot p {{ margin:8px 0 0; font-size:14px; line-height:1.8; max-width:620px; color:{MUTED}; }}
 .stTextInput input, .stNumberInput input {{ border-radius:12px !important; }}
-div[data-baseweb="select"] > div {{ border-radius:12px !important; }}
+div[data-baseweb="select"] > div {{ border-radius:12px !important; border:1.5px solid {EDGE} !important; }}
+.stTextInput [data-baseweb="input"] {{ border-radius:12px !important; border:1.5px solid {EDGE} !important; }}
 /* أزرار اللغة والمتجر وأرقام الصفحات */
 [data-testid="stButtonGroup"] button {{
-  border-radius:12px !important; border:1px solid {LINE} !important; background:#fff !important; color:{INK} !important;
+  border-radius:12px !important; border:1.5px solid {EDGE} !important; background:#fff !important; color:{INK} !important;
   font-weight:600 !important; min-height:42px; padding:0 18px !important; }}
 [data-testid="stButtonGroup"] button[aria-checked="true"] {{
-  background:{ORANGE} !important; border-color:{ORANGE} !important; color:#fff !important; font-weight:700 !important; }}
+  background:{ORANGE} !important; border-color:{EDGE} !important; color:#fff !important; font-weight:700 !important; }}
 [data-testid="stButtonGroup"] button[data-variant="pills"] {{ min-width:44px; padding:0 12px !important; }}
 @media (max-width: 700px) {{
   .om-hero {{ padding:28px 22px; grid-template-columns: 1fr; }} .om-hero h1 {{ font-size:30px; }}
