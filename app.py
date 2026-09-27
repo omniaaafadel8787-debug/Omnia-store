@@ -88,9 +88,35 @@ html, body, [class*="css"], .stApp {{ direction: rtl; }}
 .om-foot p {{ margin:8px 0 0; font-size:14px; line-height:1.8; max-width:620px; color:#E4D2DF; }}
 .stTextInput input, .stNumberInput input {{ border-radius:12px !important; }}
 div[data-baseweb="select"] > div {{ border-radius:12px !important; }}
+.om-bag {{ display:block; filter: drop-shadow(0 2px 3px rgba(74,42,85,.18)); }}
+.om-hero {{ display:grid; grid-template-columns: minmax(0,1.2fr) minmax(0,1fr); gap:24px; align-items:center; }}
+.om-hero-text {{ position:relative; z-index:1; }}
+.om-hero-pics {{ position:relative; z-index:1; height:300px; display:grid; grid-template-columns:1fr 1fr; gap:12px;
+  overflow:hidden; border-radius:20px;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent); }}
+.om-strip {{ overflow:hidden; }}
+.om-track {{ display:flex; flex-direction:column; gap:12px; animation: omUp 38s linear infinite; }}
+.om-track.rev {{ animation-name: omDown; animation-duration: 44s; }}
+.om-hero-pics:hover .om-track {{ animation-play-state: paused; }}
+.om-track img {{ width:100%; aspect-ratio:1/1; object-fit:contain; background:#fff; border-radius:16px; padding:8px;
+  box-sizing:border-box; box-shadow:0 6px 16px rgba(0,0,0,.18); }}
+@keyframes omUp {{ from {{ transform: translateY(0); }} to {{ transform: translateY(-50%); }} }}
+@keyframes omDown {{ from {{ transform: translateY(-50%); }} to {{ transform: translateY(0); }} }}
+@media (prefers-reduced-motion: reduce) {{ .om-track {{ animation: none; }} }}
+/* أزرار المتجر وأرقام الصفحات */
+[data-testid="stBaseButton-segmented_control"], [data-testid="stBaseButton-pills"] {{
+  border-radius:12px !important; border:1px solid #E6DDE4 !important; background:#fff !important; color:{INK} !important;
+  font-weight:600 !important; min-height:42px; padding:0 18px !important; }}
+[data-testid="stBaseButton-segmented_controlActive"], [data-testid="stBaseButton-pillsActive"] {{
+  border-radius:12px !important; background:{PLUM_MID} !important; border-color:{PLUM_MID} !important;
+  color:#fff !important; font-weight:700 !important; min-height:42px; padding:0 18px !important; }}
+[data-testid="stBaseButton-pills"], [data-testid="stBaseButton-pillsActive"] {{ min-width:44px; padding:0 12px !important; }}
 @media (max-width: 700px) {{
   .om-hero {{ padding:30px 24px; }} .om-hero h1 {{ font-size:30px; }}
   .om-top .om-ar {{ display:none; }}
+  .om-hero {{ grid-template-columns: 1fr; }}
+  .om-hero-pics {{ height:190px; }}
 }}
 </style>""",
     unsafe_allow_html=True,
@@ -194,11 +220,21 @@ def card_html(row):
 
 
 # ---------------- الصفحة ----------------
+# لوجو: شنطة تسوق وجواها قلب (تسوق باهتمام أم)
+LOGO_SVG = (
+    '<svg class="om-bag" width="44" height="50" viewBox="0 0 92 104" aria-hidden="true">'
+    '<path d="M30 32V24a16 16 0 0 1 32 0v8" stroke="#B8875C" stroke-width="7" stroke-linecap="round" fill="none"/>'
+    '<rect x="8" y="30" width="76" height="68" rx="18" fill="#4A2A55"/>'
+    '<path d="M46 84c-10-7-17-12.5-17-20.5a9 9 0 0 1 17-4.2 9 9 0 0 1 17 4.2c0 8-7 13.5-17 20.5z" fill="#F2A7B5"/>'
+    '<circle cx="31" cy="44" r="3.2" fill="#E9C9A8"/><circle cx="61" cy="44" r="3.2" fill="#E9C9A8"/>'
+    "</svg>"
+)
+
 st.markdown(
     '<div class="om-top">'
-    '<div class="om-logo"><span class="om-stamp">OA</span>'
+    f'<div class="om-logo">{LOGO_SVG}'
     '<span class="om-name"><b>OmAmin</b><small>STORE</small></span></div>'
-    f'<span class="om-ar">{STORE_NAME_AR} · منتجات مختارة من أمازون ونون</span>'
+    f'<span class="om-ar">{STORE_NAME_AR} · منتجات مختارة بحب من أمازون ونون</span>'
     "</div>",
     unsafe_allow_html=True,
 )
@@ -211,8 +247,28 @@ if df is None or df.empty:
 
 categories = sorted(c for c in df["category"].unique() if c)
 
+
+def hero_strip(frame, n=10, seed=0):
+    """شريط صور منتجات بيتحرك لوحده جوه البانر"""
+    pics = frame[frame["image"].str.startswith("http")]
+    if pics.empty:
+        return ""
+    pics = pics.sample(min(n, len(pics)), random_state=seed)
+    imgs = "".join(
+        f'<img src="{html.escape(u, quote=True)}" alt="" loading="lazy">' for u in pics["image"]
+    )
+    # بنكرر الصور مرتين عشان الحركة تبان متصلة من غير قطع
+    return f'<div class="om-strip"><div class="om-track">{imgs}{imgs}</div></div>'
+
+
+day_seed = pd.Timestamp.now().dayofyear
+strips = hero_strip(df, 10, day_seed) + hero_strip(df, 10, day_seed + 7).replace(
+    'class="om-track"', 'class="om-track rev"'
+)
+
 st.markdown(
     '<div class="om-hero"><div class="ring"></div><div class="dot"></div>'
+    '<div class="om-hero-text">'
     '<div class="kicker">اختيارات مجربة من أمازون ونون</div>'
     "<h1>كل اللي بيتك محتاجه،<br>متنقي بعناية</h1>"
     "<p>بندور لك على أحسن المنتجات، وإنتي تشتري بثقة من المتجر الأصلي.</p>"
@@ -220,17 +276,38 @@ st.markdown(
     f"<span><b>{len(df)}</b>منتج</span>"
     f"<span><b>{len(categories)}</b>قسم</span>"
     "<span>أمازون ونون</span>"
-    "</div></div>",
+    "</div></div>"
+    f'<div class="om-hero-pics">{strips}</div>'
+    "</div>",
     unsafe_allow_html=True,
 )
 
-c1, c2, c3 = st.columns([2, 1, 1])
+# ---------------- البحث والفلاتر ----------------
+STORE_OPTIONS = ["كل المتاجر", "أمازون", "نون"]
+if "page" not in st.session_state:
+    st.session_state.page = 1
+
+
+def reset_page():
+    st.session_state.page = 1
+
+
+c1, c2 = st.columns([2, 1])
 with c1:
-    query = st.text_input("ابحثي عن منتج", placeholder="بتدوري على إيه؟ مثلاً: سيروم، بخاخ زيت، شنطة…")
+    query = st.text_input(
+        "ابحثي عن منتج", placeholder="بتدوري على إيه؟ مثلاً: سيروم، بخاخ زيت، شنطة…",
+        on_change=reset_page,
+    )
 with c2:
-    selected_category = st.selectbox("القسم", ["كل الأقسام"] + categories)
-with c3:
-    selected_store = st.selectbox("المتجر", ["الكل", "أمازون", "نون"])
+    selected_category = st.selectbox("القسم", ["كل الأقسام"] + categories, on_change=reset_page)
+
+# أزرار المتجر: كل المتاجر / أمازون / نون
+if hasattr(st, "segmented_control"):
+    selected_store = st.segmented_control(
+        "المتجر", STORE_OPTIONS, default="كل المتاجر", key="store_btn", on_change=reset_page
+    ) or "كل المتاجر"
+else:
+    selected_store = st.radio("المتجر", STORE_OPTIONS, horizontal=True, on_change=reset_page)
 
 view = df.copy()
 view["_store"] = view.apply(store_of, axis=1)
@@ -248,20 +325,44 @@ if query:
         | view["category"].str.contains(q, case=False, regex=False)
     ]
 
-heading = selected_category if selected_category != "كل الأقسام" else "كل المنتجات"
-st.markdown(f'<div class="om-h2">{html.escape(heading)}</div>', unsafe_allow_html=True)
-
 total = len(view)
 pages = max(1, (total + PER_PAGE - 1) // PER_PAGE)
-if pages > 1:
-    p1, p2 = st.columns([1, 3])
-    with p1:
-        page = st.number_input("الصفحة", min_value=1, max_value=pages, value=1, step=1)
-    with p2:
-        st.caption(f"{total} منتج · صفحة {page} من {pages}")
-else:
-    page = 1
-    st.caption(f"{total} منتج")
+st.session_state.page = min(max(1, st.session_state.page), pages)
+
+
+def page_window(cur, last):
+    """أرقام الصفحات اللي بتظهر: الأولى والأخيرة وحوالين الصفحة الحالية"""
+    nums = {1, last} | set(range(max(1, cur - 2), min(last, cur + 2) + 1))
+    return sorted(nums)
+
+
+def go_to_page(key):
+    val = st.session_state.get(key)
+    if val:
+        st.session_state.page = int(val)
+
+
+def pager(key):
+    if pages <= 1:
+        return
+    cur = st.session_state.page
+    options = [str(n) for n in page_window(cur, pages)]
+    st.session_state[key] = str(cur)
+    if hasattr(st, "pills"):
+        st.pills(
+            "الصفحات", options, key=key, on_change=go_to_page, args=(key,),
+            label_visibility="collapsed",
+        )
+    else:
+        st.number_input("الصفحة", 1, pages, key="pg_num_" + key,
+                        value=cur, on_change=lambda: st.session_state.update(page=st.session_state["pg_num_" + key]))
+
+
+heading = selected_category if selected_category != "كل الأقسام" else "كل المنتجات"
+st.markdown(f'<div class="om-h2">{html.escape(heading)}</div>', unsafe_allow_html=True)
+page = st.session_state.page
+st.caption(f"{total} منتج · صفحة {page} من {pages}" if pages > 1 else f"{total} منتج")
+pager("pg_top")
 
 if total == 0:
     st.info("مفيش منتجات بالبحث ده. جربي كلمة تانية أو قسم تاني.")
@@ -273,10 +374,14 @@ for start in range(0, len(rows), COLUMNS_PER_ROW):
         with col:
             st.markdown(card_html(row), unsafe_allow_html=True)
 
+if pages > 1:
+    st.caption(f"صفحة {page} من {pages}")
+    pager("pg_bottom")
+
 st.markdown(
     '<div class="om-foot"><div><b>OmAmin Store</b>'
     f"<p>{STORE_NAME_EN} مشارك في برامج التسويق بالعمولة. بعض الروابط في الموقع روابط عمولة، "
     "ولما تشتري من خلالها بناخد نسبة صغيرة من المتجر، من غير أي زيادة في السعر عليكي.</p></div>"
-    f'<div class="om-ar" style="color:{GOLD_LIGHT}">{STORE_NAME_AR}</div></div>',
+    f'<div class="om-ar" style="color:{GOLD_LIGHT}">{STORE_NAME_AR} · بحب ❤</div></div>',
     unsafe_allow_html=True,
 )
